@@ -1,6 +1,6 @@
 <template>
     <div>
-        <canvas width="850px" height="1100px"  v-generate-image="creatures"></canvas>
+        <canvas width="850px" height="1100px"  v-generate-image="this"></canvas>
     </div>
 </template>
 
@@ -9,17 +9,30 @@ import {draw} from '../lib/druidWildShape';
 export default {
   name: "CanvasView",
   props: {
-    creatures: Array
+        name: String,
+        maxCr: String,
+        duration: String,
+        canFly: Boolean,
+        canSwim: Boolean,
+        creatures: Array,
   },
   directives: {
     generateImage: function(canvasEl, context) {
       var ctx = canvasEl.getContext("2d");
-      console.log(context, context.value);
+      let contextValue = context.value;
+      
+      let sheetData = {};
+      for(let key in contextValue) {
+          let value = contextValue[key];
+          if(value) {
+              sheetData[key] = value;
+          }
+      }
 
       let image = new Image();
       image.onload = () => {
           ctx.drawImage(image, 0, 0);
-            draw(ctx, {
+            draw(ctx, Object.assign({
                 name: 'Test Name',
                 maxCr: '1',
                 duration: '1 hr',
@@ -77,7 +90,7 @@ export default {
                         details: [],
                     },
                 ]
-            });
+            }, sheetData));
       };
       image.src = '/sheet-sm.png';
 
