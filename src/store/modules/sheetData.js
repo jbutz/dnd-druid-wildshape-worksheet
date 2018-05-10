@@ -77,7 +77,7 @@ const getters = {
 
 // actions
 const actions = {
-    ...(() => {
+    /*...(() => {
         let propActions = {};
 
         Object.keys(DEFAULT_STATE).forEach(key => {
@@ -88,12 +88,27 @@ const actions = {
         });
 
         return propActions;
-    })()
+    })(),*/
+    setName({commit}, value) {
+        commit('setProperty', ['name', value || DEFAULT_STATE.name]);
+    },
+    setMaxCr({commit}, value) {
+        commit('setProperty', ['maxCr', value || DEFAULT_STATE.maxCr]);
+    },
+    setDuration({commit}, value) {
+        commit('setProperty', ['duration', value || DEFAULT_STATE.duration]);
+    },
+    setCanFly({commit}, value) {
+        commit('setProperty', ['canFly', value]);
+    },
+    setCanSwim({commit}, value) {
+        commit('setProperty', ['canSwim', value]);
+    },
 };
 
 // mutations
 const mutations = {
-    ...(() => {
+    /*...(() => {
         let propMutations = {};
 
         Object.keys(DEFAULT_STATE).forEach(key => {
@@ -104,7 +119,10 @@ const mutations = {
         });
 
         return propMutations;
-    })()
+    })()*/
+    setProperty(state, [property, value]) {
+        state[property] = value;
+    }
 };
 
 export default {
