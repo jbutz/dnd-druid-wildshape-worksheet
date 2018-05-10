@@ -1,21 +1,17 @@
 <template>
     <div>
-        <canvas width="850px" height="1100px"  v-generate-image="this"></canvas>
+        <canvas width="850px" height="1100px"  v-generate-image="sheetData"></canvas>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {draw} from '../lib/druidWildShape';
 export default {
   name: "CanvasView",
-  props: {
-        name: String,
-        maxCr: String,
-        duration: String,
-        canFly: Boolean,
-        canSwim: Boolean,
-        creatures: Array,
-  },
+  computed: mapGetters({
+    sheetData: 'sheetData'
+  }),
   directives: {
     generateImage: function(canvasEl, context) {
       var ctx = canvasEl.getContext("2d");
@@ -28,11 +24,13 @@ export default {
               sheetData[key] = value;
           }
       }
+      console.log('BUILDING....')
 
       let image = new Image();
       image.onload = () => {
           ctx.drawImage(image, 0, 0);
-            draw(ctx, Object.assign({
+            draw(ctx, sheetData);
+            /*draw(ctx, Object.assign({
                 name: 'Test Name',
                 maxCr: '1',
                 duration: '1 hr',
@@ -90,7 +88,7 @@ export default {
                         details: [],
                     },
                 ]
-            }, sheetData));
+            }, sheetData));*/
       };
       image.src = '/sheet-sm.png';
 

@@ -1,11 +1,7 @@
 <template>
     <div id="app">
-        <SheetBuilder v-on:sheet-change="onSheetChange"/>
-        <CanvasView
-            v-bind:name="sheetData.name"
-            v-bind:maxCr="sheetData.maxCr"
-            v-bind:creatures="sheetData.creatures"
-        />
+        <SheetBuilder />
+        <CanvasView />
     </div>
 </template>
 
@@ -18,14 +14,6 @@ export default {
   components: {
     SheetBuilder,
     CanvasView
-  },
-  data: () => ({
-      sheetData: {}
-  }),
-  methods: {
-      onSheetChange: function(sheetData) {
-          this.sheetData = sheetData;
-      }
   }
 };
 </script>

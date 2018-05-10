@@ -1,29 +1,28 @@
 <template>
     <div>
-        <form v-on:change="processSheetChange">
+        <!-- v-on:change="processSheetChange" -->
+        <form >
             <label>Character Name</label>
-            <input type="text" v-model="name" />
+            <input type="text" @change="setName($event.target.value)" :value="name"/>
             <label>Max CR</label>
-            <input type="text" v-model="maxCr" />
+            <input type="text" @change="setMaxCr($event.target.value)" :value="maxCr" />
         </form>
     </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
-    name: "SheetBuilder",
-    data: () => ({
-        name: null,
-        maxCr: null,
-    }),
-    methods: {
-        processSheetChange: function() {
-            this.$emit('sheet-change', {
-                name: this.name,
-                maxCr: this.maxCr,
-            });
-        }
-    }
+  name: "SheetBuilder",
+  computed: mapGetters({
+    name: "sheetDataName",
+    maxCr: "sheetDataMaxCr",
+  }),
+  methods: mapActions([
+      "setName",
+      "setMaxCr",
+    ]),
 };
 </script>
 
