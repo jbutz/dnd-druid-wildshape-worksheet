@@ -40,7 +40,7 @@ export default {
                 ctx.drawImage(image, 0, 0);
                 draw(ctx, sheetData);
             };
-            image.src = '/sheet-sm.png';
+            image.src = '../sheet-sm.png';
         }
     },
     methods: {
@@ -71,7 +71,7 @@ export default {
                 draw(ctx, sheetData, 3);
                 window.open(this.$refs.canvasLrgEl.toDataURL());
             };
-            image.src = '/sheet.png';
+            image.src = '../sheet.png';
         }
     }
 };
