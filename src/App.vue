@@ -6,15 +6,16 @@
 </template>
 
 <script>
-import CanvasView from "./components/CanvasView.vue";
-import SheetBuilder from "./components/SheetBuilder.vue";
+import CanvasView from './components/CanvasView.vue';
+import SheetBuilder from './components/SheetBuilder.vue';
+import 'purecss/build/pure-min.css';
 
 export default {
-  name: "app",
-  components: {
-    SheetBuilder,
-    CanvasView
-  }
+    name: 'app',
+    components: {
+        SheetBuilder,
+        CanvasView
+    }
 };
 </script>
 

@@ -1,101 +1,77 @@
 <template>
     <div>
-        <canvas width="850px" height="1100px"  v-generate-image="sheetData"></canvas>
+        <p>
+        <button type="button" @click="downloadPdf">Download PDF</button>
+        <button type="button" @click="downloadImage">Download High-Res Image</button>
+        </p>
+        <canvas width="850px" height="1100px"  v-generate-image="sheetData" ref="canvasEl"></canvas>
+        <canvas style="display: none;" width="2550px" height="3300px" ref="canvasLrgEl"></canvas>
     </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import {draw} from '../lib/druidWildShape';
+import { mapGetters } from 'vuex';
+import jsPDF from 'jspdf';
+import { draw } from '../lib/druidWildShape';
 export default {
-  name: "CanvasView",
-  computed: mapGetters({
-    sheetData: 'sheetData'
-  }),
-  directives: {
-    generateImage: function(canvasEl, context) {
-      var ctx = canvasEl.getContext("2d");
-      let contextValue = context.value;
-      
-      let sheetData = {};
-      for(let key in contextValue) {
-          let value = contextValue[key];
-          if(value) {
-              sheetData[key] = value;
-          }
-      }
-      console.log('BUILDING....')
+    name: 'CanvasView',
+    computed: mapGetters({
+        sheetData: 'sheetData'
+    }),
+    directives: {
+        generateImage: function(canvasEl, context) {
+            context.value;
+            var ctx = canvasEl.getContext('2d');
+            let contextValue = context.value;
 
-      let image = new Image();
-      image.onload = () => {
-          ctx.drawImage(image, 0, 0);
-            draw(ctx, sheetData);
-            /*draw(ctx, Object.assign({
-                name: 'Test Name',
-                maxCr: '1',
-                duration: '1 hr',
-                canFly: false,
-                canSwim: false,
-                creatures: [
-                    {
-                        name: 'Dire Wolf',
-                        size: 'Large',
-                        speed: '30ft',
-                        hitDice: '5d10',
-                        str: '17',
-                        dex: '15',
-                        con: '15',
-                        cr: '1',
-                        hp: '37',
-                        ac: '14',
-                        //details: [
-                        //    "Skills: Perception +3, Stealth +4          Senses: passive Perception 13",
-                        //    "Keen Hearing and Smell. The wolf has advantage on Wisdom (Perception) checks that rely on hearing or smell.",
-                        //    "Pack Tactics. The wolf has advantage on an attack roll against a creature if at least one of the wolf's allies is within 5 feet of the creature and the ally isn't incapacitated.",
-                        //    "Bite. Melee Weapon Attack: +5 to hit, reach 5 ft., one target.",
-                        //    "  Hit: 10 (2d6 + 3) piercing damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone."
-                        //],
-                        details: [
-                            "Perception +3, Stealth +4, passive Perception 13, Keen Hearing and Smell, Pack Tactics",
-                            "Bite. Melee Weapon Attack: +5 to hit, reach 5 ft., one target.",
-                            "  Hit: 10 (2d6 + 3) piercing damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone."
-                        ],
-                    },
-                    {
-                        name: '|',
-                        size: '|',
-                        speed: '|',
-                        hitDice: '|',
-                        str: '18',
-                        dex: '18',
-                        con: '18',
-                        cr: '1',
-                        hp: '200',
-                        ac: '18',
-                        details: [],
-                    },
-                    {
-                        name: '|',
-                        size: '|',
-                        speed: '|',
-                        hitDice: '|',
-                        str: '18',
-                        dex: '18',
-                        con: '18',
-                        cr: '1',
-                        hp: '200',
-                        ac: '18',
-                        details: [],
-                    },
-                ]
-            }, sheetData));*/
-      };
-      image.src = '/sheet-sm.png';
+            let sheetData = {
+                name: contextValue.name,
+                maxCr: contextValue.maxCr,
+                duration: contextValue.duration,
+                canFly: contextValue.canFly,
+                canSwim: contextValue.canSwim,
+                creatures: contextValue.creatures
+            };
 
+            let image = new Image();
+            image.onload = () => {
+                ctx.drawImage(image, 0, 0);
+                draw(ctx, sheetData);
+            };
+            image.src = '/sheet-sm.png';
+        }
+    },
+    methods: {
+        downloadPdf: function() {
+            var doc = new jsPDF({
+                orientation: 'p',
+                format: 'letter'
+            });
 
-      
+            doc.addImage(this.$refs.canvasEl, 'png', -5, -6); //, Number.parseInt(this.$refs.canvasEl.height, 10) * 2, Number.parseInt(this.$refs.canvasEl.height, 10) * 2);
+
+            doc.save('wildshape.pdf');
+        },
+        downloadImage: function() {
+            let ctx = this.$refs.canvasLrgEl.getContext('2d');
+            let sheetData = {
+                name: this.sheetData.name,
+                maxCr: this.sheetData.maxCr,
+                duration: this.sheetData.duration,
+                canFly: this.sheetData.canFly,
+                canSwim: this.sheetData.canSwim,
+                creatures: this.sheetData.creatures
+            };
+
+            let image = new Image();
+            image.onload = () => {
+                ctx.drawImage(image, 0, 0);
+                draw(ctx, sheetData, 3);
+                window.open(this.$refs.canvasLrgEl.toDataURL());
+            };
+            image.src = '/sheet.png';
+        }
     }
-  }
 };
 </script>
 
