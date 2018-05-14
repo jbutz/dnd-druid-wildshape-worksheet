@@ -10,7 +10,7 @@ const BEASTS_MAP = (ctx => {
     }, {});
 
     return Object.values(beastMap).sort((a, b) => a.name > b.name);
-})(require.context('../data/beasts',true, /.*\.js/));
+})(require.context('../../data/beasts',true, /.*\.js/));
 
 
 export function resolveBeast(beastName) {

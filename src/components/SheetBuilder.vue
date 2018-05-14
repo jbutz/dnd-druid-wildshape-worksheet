@@ -34,50 +34,58 @@
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature1">
-                            <option></option>
-                            <option value="Dire Wolf">Dire Wolf (CR 1)</option>
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
+                                {{ beast }}
+                            </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature2">
-                            <option></option>
-                            <option value="Dire Wolf">Dire Wolf (CR 1)</option>
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
+                                {{ beast }}
+                            </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature3">
-                            <option></option>
-                            <option value="Dire Wolf">Dire Wolf (CR 1)</option>
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
+                                {{ beast }}
+                            </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature4">
-                            <option></option>
-                            <option value="Dire Wolf">Dire Wolf (CR 1)</option>
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
+                                {{ beast }}
+                            </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature5">
-                            <option></option>
-                            <option value="Dire Wolf">Dire Wolf (CR 1)</option>
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
+                                {{ beast }}
+                            </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature6">
-                            <option></option>
-                            <option value="Dire Wolf">Dire Wolf (CR 1)</option>
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
+                                {{ beast }}
+                            </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature7">
-                            <option></option>
-                            <option value="Dire Wolf">Dire Wolf (CR 1)</option>
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
+                                {{ beast }}
+                            </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature8">
-                            <option></option>
-                            <option value="Dire Wolf">Dire Wolf (CR 1)</option>
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
+                                {{ beast }}
+                            </option>
                         </select>
                     </div>
                 </fieldset>
@@ -151,7 +159,7 @@ export default {
             }
 
             return creatureGetterSetters;
-        })()
+        })(),
     },
     methods: mapActions([
         'setName',
