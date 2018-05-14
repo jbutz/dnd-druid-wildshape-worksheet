@@ -1,15 +1,16 @@
 module.exports = {
     env: {
-        browser: true,
-        es6: true
+        browser: false,
+        node: true,
+    },
+    root: true,
+    parserOptions: {
+        sourceType: 'script',
+        ecmaVersion: '2017',
     },
     extends: [
         'eslint:recommended',
-        'plugin:vue/essential',
     ],
-    parserOptions: {
-        sourceType: 'module'
-    },
     rules: {
         indent: [
             'error',
