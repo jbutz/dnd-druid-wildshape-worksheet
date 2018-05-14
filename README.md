@@ -2,7 +2,8 @@
 
 > Easily fill in a sheet with SRD beast information for quick reference
 
-background details relevant to understanding what this module does
+This project's purpose is two-fold. Firstly, it was a simple project to allow me to try out [Vue.js](https://vuejs.org/).
+Secondly it makes filling out glumlord's druid wild shape sheet much easier.
 
 ## Usage
 
