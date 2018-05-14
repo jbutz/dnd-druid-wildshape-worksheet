@@ -21,5 +21,8 @@ export function resolveBeast(beastName) {
 }
 
 export function getBeasts() {
-    return beastData.map((beast) => beast.name);
+    return beastData.map((beast) => ({
+        value: beast.name,
+        label: `${beast.name} ( CR${beast.cr} )`
+    }));
 }

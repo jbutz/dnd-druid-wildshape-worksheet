@@ -27,64 +27,64 @@
                     <legend>Creatures</legend>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature0">
-                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
-                                {{ beast }}
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast.value" :key="beast.value">
+                                {{ beast.label }}
                             </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature1">
-                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
-                                {{ beast }}
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast.value" :key="beast.value">
+                                {{ beast.label }}
                             </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature2">
-                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
-                                {{ beast }}
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast.value" :key="beast.value">
+                                {{ beast.label }}
                             </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature3">
-                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
-                                {{ beast }}
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast.value" :key="beast.value">
+                                {{ beast.label }}
                             </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature4">
-                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
-                                {{ beast }}
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast.value" :key="beast.value">
+                                {{ beast.label }}
                             </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature5">
-                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
-                                {{ beast }}
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast.value" :key="beast.value">
+                                {{ beast.label }}
                             </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature6">
-                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
-                                {{ beast }}
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast.value" :key="beast.value">
+                                {{ beast.label }}
                             </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature7">
-                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
-                                {{ beast }}
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast.value" :key="beast.value">
+                                {{ beast.label }}
                             </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature8">
-                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
-                                {{ beast }}
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast.value" :key="beast.value">
+                                {{ beast.label }}
                             </option>
                         </select>
                     </div>
