@@ -62,17 +62,17 @@ export function draw(ctx, {
         ctx.fillText(creature.hitDice, 568 * multiplyer, 224 * multiplyer + FACTOR);
 
         // Creature Strength
-        ctx.font = `${14 * multiplyer}px Arial`;
+        ctx.font = `${10 * multiplyer}px Arial`;
         ctx.textAlign = 'center';
         ctx.fillText(creature.str, 640 * multiplyer, 224 * multiplyer + FACTOR);
 
         // Creature Dexterity
-        ctx.font = `${14 * multiplyer}px Arial`;
+        ctx.font = `${10 * multiplyer}px Arial`;
         ctx.textAlign = 'center';
         ctx.fillText(creature.dex, 705 * multiplyer, 224 * multiplyer + FACTOR);
 
         // Creature Constitution
-        ctx.font = `${14 * multiplyer}px Arial`;
+        ctx.font = `${10 * multiplyer}px Arial`;
         ctx.textAlign = 'center';
         ctx.fillText(creature.con, 778 * multiplyer, 224 * multiplyer + FACTOR);
 

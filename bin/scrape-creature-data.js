@@ -4,9 +4,7 @@ const fs = require('fs');
 const _chunk = require('lodash/chunk');
 
 puppeteer
-    .launch({
-        executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-    })
+    .launch()
     .then(async browser => {
         const page = await browser.newPage();
         await page.goto('https://5thsrd.org/gamemaster_rules/monster_indexes/monsters_by_type/');
@@ -27,13 +25,21 @@ puppeteer
                     return result.concat(
                         batch.map(url => {
                             if (delay === 0) {
-                                return processCreaturePage(url, browser, _processActions);
+                                return processCreaturePage(url, browser, _processActions)
+                                .catch((error) => {
+                                    console.error('Error occured with', url);
+                                    throw error;
+                                });
                             }
 
                             return new Promise(resolve => {
                                 setTimeout(() => {
                                     resolve(processCreaturePage(url, browser, _processActions));
                                 }, delay);
+                            })
+                            .catch((error) => {
+                                console.error('Error occured with', url);
+                                throw error;
                             });
                         })
                     );
@@ -41,7 +47,7 @@ puppeteer
             })()
         );
 
-        fs.writeFileSync('./beasts.json', JSON.stringify(creatureData));
+        fs.writeFileSync('./data/beasts.json', JSON.stringify(creatureData, null, 4));
 
         await browser.close();
 
@@ -49,12 +55,17 @@ puppeteer
     });
 
 async function processCreaturePage(pageUrl, browser) {
+    console.log('Processing', pageUrl);
     try {
         const page = await browser.newPage();
-        await page.exposeFunction('_processActions', _processActions);
-        await page.exposeFunction('_consoleLog', console.log);
         await page.goto(pageUrl);
-
+        await page.exposeFunction('_consoleLog', (...args) => console.log(...args));
+        await page.addScriptTag({
+            content: _processActions.toString()
+        });
+        await page.addScriptTag({
+            content: upperCaseFirstCharacter.toString()
+        });
         let data = await page.evaluate(async () => {
             // Name
             let creatureNameHeaderEl = document.querySelector('.container h1');
@@ -71,9 +82,12 @@ async function processCreaturePage(pageUrl, browser) {
             let attributesParagraphEl = creatureNameHeaderEl.nextElementSibling.nextElementSibling;
 
             let acTextEl = attributesParagraphEl.children[0];
-            let armorClass = acTextEl.nextSibling.textContent.trim();
+            let armorClass = acTextEl.nextSibling.textContent.replace(/\D/g,'').trim();
             let hpTextEl = attributesParagraphEl.children[2];
-            let hitPoints = hpTextEl.nextSibling.textContent.trim();
+            let hitDice = hpTextEl.nextSibling.textContent.trim()
+                .replace(/^\d+ \(/, '').replace(/ \+ \d+\)$/,'');
+            let hitPoints = hpTextEl.nextSibling.textContent.trim().replace(/ \(.*$/, '');
+            
             let speedTextEl = attributesParagraphEl.children[4];
             let speed = speedTextEl.nextSibling.textContent.trim();
 
@@ -108,18 +122,26 @@ async function processCreaturePage(pageUrl, browser) {
             }
 
             // Actions
-            let actionsParagraphEl = skillsAndSensesParagraphEl.nextElementSibling;
+            let currentActionsElement = skillsAndSensesParagraphEl.nextElementSibling;
+            let actionsArray = []
+            while(currentActionsElement !== null) {
+                if(currentActionsElement.nodeName === 'P') {
+                    actionsArray = actionsArray.concat(_processActions(currentActionsElement));
+                }
+                currentActionsElement = currentActionsElement.nextElementSibling;    
+            }
 
-            let actionsArray = await _processActions(actionsParagraphEl);
-            //if(actionsParagraphEl.nextElementSibling && actionsParagraphEl.nextElementSibling.nodeName === 'H3') {
-            //    actionsArray = actionsArray.concat(await _processActions(actionsParagraphEl.nextElementSibling.nextElementSibling));
-            //}
+            let details = [
+                `${skillsText},  ${sensesText}`,
+                ...actionsArray,
+            ]
 
             return {
                 name: creatureName,
-                size,
+                size: upperCaseFirstCharacter(size),
                 ac: armorClass,
                 hp: hitPoints,
+                hitDice,
                 speed,
                 str: strText,
                 dex: dexText,
@@ -128,7 +150,8 @@ async function processCreaturePage(pageUrl, browser) {
                 senses: sensesText,
                 cr: challengeText,
                 languages: languagesText,
-                actions: actionsArray
+                actions: actionsArray,
+                details
             };
         });
         await page.close();
@@ -155,4 +178,8 @@ function _processActions(actionsContainerEl) {
         }
         return accumulator;
     }, []);
+}
+
+function upperCaseFirstCharacter(text) {
+    return `${text.substr(0,1).toUpperCase()}${text.substr(1)}`
 }

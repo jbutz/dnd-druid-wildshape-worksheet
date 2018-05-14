@@ -1,21 +1,9 @@
-const BEASTS_MAP = (ctx => {
-    let keys = ctx.keys();
-    let values = keys.map(ctx);
-    
-    let beastMap = Array.concat.call([], values).reduce((completeBeastsMap, beastsFileObj) => {
-        return {
-            ...completeBeastsMap,
-            ...beastsFileObj,
-        };
-    }, {});
-
-    return Object.values(beastMap).sort((a, b) => a.name > b.name);
-})(require.context('../../data/beasts',true, /.*\.js/));
+import beastData from '../../data/beasts.json';
 
 
 export function resolveBeast(beastName) {
     
-    let foundBeast = BEASTS_MAP.find((beast) => beast.name === beastName);
+    let foundBeast = beastData.find((beast) => beast.name === beastName);
 
     return Object.assign({
         name: beastName,
@@ -33,5 +21,5 @@ export function resolveBeast(beastName) {
 }
 
 export function getBeasts() {
-    return Object.values(BEASTS_MAP).map((beast) => beast.name);
+    return beastData.map((beast) => beast.name);
 }
