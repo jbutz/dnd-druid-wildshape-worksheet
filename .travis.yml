@@ -1,14 +1,17 @@
 language: node_js
+node_js:
+    - "8"
 before_script:
-- npm install
+    - export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    - npm install
 script:
-- npm run build
+    - npm run build
 deploy:
-  provider: pages
-  local-dir: dir
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep-history: true
-  target-branch: gh-pages
-  on:
-    branch: master
+    provider: pages
+    local-dir: dir
+    skip-cleanup: true
+    github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+    keep-history: true
+    target-branch: gh-pages
+    on:
+        branch: master
