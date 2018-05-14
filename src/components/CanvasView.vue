@@ -15,9 +15,11 @@ import jsPDF from 'jspdf';
 import { draw } from '../lib/druidWildShape';
 export default {
     name: 'CanvasView',
-    computed: mapGetters({
-        sheetData: 'sheetData'
-    }),
+    computed: {
+        ...mapGetters({
+            sheetData: 'sheetData'
+        })
+    },
     directives: {
         generateImage: function(canvasEl, context) {
             context.value;
@@ -48,7 +50,7 @@ export default {
                 format: 'letter'
             });
 
-            doc.addImage(this.$refs.canvasEl, 'png', -5, -6); //, Number.parseInt(this.$refs.canvasEl.height, 10) * 2, Number.parseInt(this.$refs.canvasEl.height, 10) * 2);
+            doc.addImage(this.$refs.canvasEl, 'png', -5, -6);
 
             doc.save('wildshape.pdf');
         },

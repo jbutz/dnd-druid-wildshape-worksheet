@@ -39,7 +39,8 @@ export function draw(ctx, {
     const CREATURE_LINE_FACTOR = 93;
     
     creatures.forEach((creature, idx) => {
-        const FACTOR = CREATURE_LINE_FACTOR * idx * multiplyer;
+        if(!creature) return;
+        const FACTOR = CREATURE_LINE_FACTOR * idx * multiplyer + (0.25 * idx * multiplyer);
         // Creature Name
         ctx.font = `${14 * multiplyer}px Arial`;
         ctx.textAlign = 'center';
