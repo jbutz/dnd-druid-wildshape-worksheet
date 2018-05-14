@@ -132,86 +132,22 @@ export default {
                 this.setCanSwim(value);
             }
         },
-        creatures: {
-            get() {
-                return this.sheetData.creatures;
-            },
-            set() {
-                // NOOP
-            }
-        },
-        creature0: {
-            get() {
-                return this.sheetData.creatures[0] ? this.sheetData.creatures[0].name : null;
-            },
-            set(value) {
-                this.setCreature([value, 0]);
-            }
-        },
-        creature1: {
-            get() {
-                return this.sheetData.creatures[1] ? this.sheetData.creatures[1].name : null;
-            },
-            set(value) {
-                this.setCreature([value, 1]);
-            }
-        },
-        creature2: {
-            get() {
-                return this.sheetData.creatures[2] ? this.sheetData.creatures[2].name : null;
-            },
-            set(value) {
-                this.setCreature([value, 2]);
-            }
-        },
-        creature3: {
-            get() {
-                return this.sheetData.creatures[3] ? this.sheetData.creatures[3].name : null;
-            },
-            set(value) {
-                this.setCreature([value, 3]);
-            }
-        },
-        creature4: {
-            get() {
-                return this.sheetData.creatures[4] ? this.sheetData.creatures[4].name : null;
-            },
-            set(value) {
-                this.setCreature([value, 4]);
-            }
-        },
-        creature5: {
-            get() {
-                return this.sheetData.creatures[5] ? this.sheetData.creatures[5].name : null;
-            },
-            set(value) {
-                this.setCreature([value, 5]);
-            }
-        },
-        creature6: {
-            get() {
-                return this.sheetData.creatures[6] ? this.sheetData.creatures[6].name : null;
-            },
-            set(value) {
-                this.setCreature([value, 6]);
-            }
-        },
-        creature7: {
-            get() {
-                return this.sheetData.creatures[7] ? this.sheetData.creatures[7].name : null;
-            },
-            set(value) {
-                this.setCreature([value, 7]);
-            }
-        },
-        creature8: {
-            get() {
-                return this.sheetData.creatures[8] ? this.sheetData.creatures[8].name : null;
-            },
-            set(value) {
-                this.setCreature([value, 8]);
-            }
-        },
+        ...((() => {
+            let creatureGetterSetters = {};
+
+            for(let i = 0; i < 9; i++) {
+                creatureGetterSetters[`creature${i}`] = {
+                    get() {
+                        return this.sheetData.creatures[i] ? this.sheetData.creatures[i].name : null;
+                    },
+                    set(value) {
+                        this.setCreature([value, i]);
+                    }
+                }
+            };
+
+            return creatureGetterSetters;
+        })()),
     },
     methods: mapActions([
         'setName',
