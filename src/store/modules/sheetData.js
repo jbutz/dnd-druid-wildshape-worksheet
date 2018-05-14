@@ -1,4 +1,4 @@
-import { resolveBeastFromName } from '../../lib/beastResolver';
+import { resolveBeast } from '../../lib/beastResolver';
 const DEFAULT_STATE = {
     name: 'Test Name',
     maxCr: '1',
@@ -81,18 +81,6 @@ const getters = {
 
 // actions
 const actions = {
-    /*...(() => {
-        let propActions = {};
-
-        Object.keys(DEFAULT_STATE).forEach(key => {
-            let name = `set${key.substr(0, 1).toUpperCase()}${key.substr(1)}`;
-            propActions[name] = ({ commit }, value) => {
-                commit(name, value || DEFAULT_STATE[key]);
-            };
-        });
-
-        return propActions;
-    })(),*/
     setName({ commit }, value) {
         commit('setProperty', ['name', value || DEFAULT_STATE.name]);
     },
@@ -123,7 +111,7 @@ const mutations = {
 
         creaturesArray[creaturePosition] = Object.assign(
             creaturesArray[creaturePosition] || {},
-            resolveBeastFromName(creatureName)
+            resolveBeast(creatureName)
         );
 
         state.sheetData.creatures = creaturesArray;

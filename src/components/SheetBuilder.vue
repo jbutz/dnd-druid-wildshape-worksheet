@@ -27,8 +27,9 @@
                     <legend>Creatures</legend>
                     <div class="pure-control-group">
                         <select class="pure-input-1" v-model="creature0">
-                            <option></option>
-                            <option value="Dire Wolf">Dire Wolf (CR 1)</option>
+                            <option v-for="beast in BEAST_OPTIONS" v-bind:value="beast" :key="beast">
+                                {{ beast }}
+                            </option>
                         </select>
                     </div>
                     <div class="pure-control-group">
@@ -87,6 +88,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { getBeasts } from '../lib/beastResolver';
 
 export default {
     name: 'SheetBuilder',
@@ -132,22 +134,24 @@ export default {
                 this.setCanSwim(value);
             }
         },
-        ...((() => {
+        ...(() => {
             let creatureGetterSetters = {};
 
-            for(let i = 0; i < 9; i++) {
+            for (let i = 0; i < 9; i++) {
                 creatureGetterSetters[`creature${i}`] = {
                     get() {
-                        return this.sheetData.creatures[i] ? this.sheetData.creatures[i].name : null;
+                        return this.sheetData.creatures[i]
+                            ? this.sheetData.creatures[i].name
+                            : null;
                     },
                     set(value) {
                         this.setCreature([value, i]);
                     }
-                }
-            };
+                };
+            }
 
             return creatureGetterSetters;
-        })()),
+        })()
     },
     methods: mapActions([
         'setName',
@@ -155,8 +159,13 @@ export default {
         'setDuration',
         'setCanFly',
         'setCanSwim',
-        'setCreature',
-    ])
+        'setCreature'
+    ]),
+    data: function() {
+        return {
+            BEAST_OPTIONS: [''].concat(getBeasts())
+        };
+    }
 };
 </script>
 
