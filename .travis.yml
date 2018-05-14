@@ -1,0 +1,13 @@
+language: node_js
+before_script:
+- npm install
+script:
+- npm run build
+deploy:
+  provider: pages
+  local-dir: dir
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep-history: true
+  on:
+    branch: gh-pages
