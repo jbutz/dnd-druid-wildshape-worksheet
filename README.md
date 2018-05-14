@@ -37,15 +37,15 @@ With [npm](https://npmjs.org/) installed, from the root directory of the repo, r
 $ npm ./bin/scrape-creature-data.js
 ```
 
-This will create the `data/beasts.json` file fresh from [https://5thsrd.org](5thsrd.org).
+This will create the `data/beasts.json` file fresh from [5thsrd.org](https://5thsrd.org).
 
 ## Acknowledgments
 
 This tool wouldn't exist without glumlord's (Joshua Fredrickson) amazing Druid Wild Shape sheet.
-It is available for download on [https://www.reddit.com/r/dndnext/comments/35vtyv/druid_wildshape_reference_sheet_is_there_a/](Reddit) 
-and on [http://www.enworld.org/forum/rpgdownloads.php?do=download&downloadid=1266](EN World).
+It is available for download on [Reddit](https://www.reddit.com/r/dndnext/comments/35vtyv/druid_wildshape_reference_sheet_is_there_a/) 
+and on [EN World](http://www.enworld.org/forum/rpgdownloads.php?do=download&downloadid=1266).
 
-While the creature information is licensed under OGL, the copy of the information used was pulled from [https://5thsrd.org](5thsrd.org).
+While the creature information is licensed under OGL, the copy of the information used was pulled from [5thsrd.org](https://5thsrd.org).
 
 ## License
 
