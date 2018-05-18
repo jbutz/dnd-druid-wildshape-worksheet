@@ -276,7 +276,7 @@
         "cr": "1",
         "languages": "",
         "details": [
-            "Perception +3, Stealth +4, Passive Perception 13, Keen Hearing and Smell Pack Tactics",
+            "Perception +3, Stealth +4, Passive Perception 13, Keen Hearing and Smell, Pack Tactics",
             "Bite.  Melee Weapon Attack: +5 to hit, reach 5 ft., one target.",
             " Hit: 10 (2d6 + 3) piercing damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone."
         ]
@@ -1564,8 +1564,7 @@
         "cr": "1/4",
         "languages": "",
         "details": [
-            "Perception +3, Stealth +4, Passive Perception 13",
-            "Keen Hearing and Smell Pack Tactics. The wolf has advantage on attack rolls against a creature if at least one of the wolf's allies is within 5 feet of the creature and the ally isn't incapacitated.",
+            "Perception +3, Stealth +4, Passive Perception 13, Keen Hearing and Smell, Pack Tactics",
             "Bite.  Melee Weapon Attack: +4 to hit, reach 5 ft., one target.",
             " Hit: 7 (2d4 + 2) piercing damage. If the target is a creature, it must succeed on a DC 11 Strength saving throw or be knocked prone."
         ]

@@ -191,6 +191,7 @@ function upperCaseFirstCharacter(text) {
 function transformData(data) {
     data.details = data.details.map((detail) =>
         _.chain(detail)
+            .thru(_transformFixDireWolf)
             .thru(_transformPassivePerception)
             .thru(_transformPackTactics)
             .thru(_transformKeenSmell)
@@ -241,13 +242,19 @@ function _condenceDetails(detailsArray) {
     return detailsOutput;
 }
 
+function _transformFixDireWolf(value) {
+    if(value.includes('Pack Tactics.') && value.includes('Keen Hearing and Smell.')) {
+        return value.replace(' Pack Tactics.', ', Pack Tactics.');
+    }
 
+    return value
+}
 function _transformPassivePerception(value) {
     return value.replace('passive Perception', 'Passive Perception');
 }
 
 function _transformPackTactics(value) {
-    return value.replace(/Pack Tactics\. The (.+) has advantage on an attack roll against a creature if at least one of the (.+) allies is within 5 feet of the creature and the ally isn't incapacitated\./, 'Pack Tactics');
+    return value.replace(/Pack Tactics\. The (.+) has advantage on.* attack roll.* against a creature if at least one of the (.+) allies is within 5 feet of the creature and the ally isn't incapacitated\./, 'Pack Tactics');
 }
 
 function _transformKeenSmell(value) {
