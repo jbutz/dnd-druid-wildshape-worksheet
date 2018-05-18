@@ -319,7 +319,7 @@ function _transformRelentless(value) {
 }
 
 function _transformTramplingCharge(value) {
-    let matchObj = value.match(/Trampling Charge\. If the .+ moves at least (.+) feet straight toward a creature and then hits it with a (.+) on the same turn, that target must succeed on a (.+) saving throw or be knocked prone\. If the target is prone, the .+ can make one stomp attack against it as a bonus action./);
+    let matchObj = value.match(/Trampling Charge\. If the .+ moves at least (.+) feet straight toward a creature and then hits it with a (.+) on the same turn, that target must succeed on a (.+) saving throw or be knocked prone\. If the target is prone, the .+ can make (.+) against it as a bonus action\./);
 
     return matchObj ? `Trampling Charge: ${matchObj[1]}ft, ${matchObj[2]}, ${matchObj[3]} saving throw` : value;
 }
