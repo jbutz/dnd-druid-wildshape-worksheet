@@ -1,26 +1,35 @@
 <template>
     <div id="form-container">
-        <!-- v-on:change="processSheetChange" -->
-        <form class="pure-form pure-form-aligned">
-            <div class="pure-control-group">
-                <label>Character Name</label>
-                <input type="text" v-model="name"/>
-            </div>
-            <div class="pure-control-group">
-                <label>Max CR</label>
-                <input type="text" v-model="maxCr" />
-            </div>
-            <div class="pure-control-group">
-                <label>Wild Shape Duration</label>
-                <input type="text" v-model="duration" />
-            </div>
-            <div class="pure-control-group">
-                <label>Can Fly</label>
-                <input type="checkbox" v-model="canFly" />
-            </div>
-            <div class="pure-control-group">
-                <label>Can Swim</label>
-                <input type="checkbox" v-model="canSwim" />
+        <form class="pure-form pure-form-stacked">
+            <div class="pure-g">
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <label for="name">Character Name</label>
+                    <input type="text" name="name" v-model="name"/>
+                </div>
+
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <label for="maxCr">Max CR</label>
+                    <input type="text" name="maxCr" class="pure-input-1-3" v-model="maxCr" />
+                </div>
+
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <label for="duration">Wild Shape Duration</label>
+                    <input type="text" name="duration" class="pure-input-1-3" v-model="duration" />
+                </div>
+                
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <label class="pure-checkbox">
+                        <input type="checkbox" name="canSwim" v-model="canSwim" />
+                        Can Swim
+                    </label>
+                </div>
+
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <label class="pure-checkbox">
+                        <input type="checkbox" name="canFly" v-model="canFly" />
+                        Can Fly
+                    </label>
+                </div>
             </div>
             <div>
                 <fieldset>
@@ -180,9 +189,7 @@ export default {
 
 <style scoped>
 #form-container {
-    text-align: left;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
+    padding-right: 2em;
+    padding-left: 2em;
 }
 </style>

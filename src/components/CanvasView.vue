@@ -1,10 +1,10 @@
 <template>
     <div>
-        <p>
-        <button type="button" @click="downloadPdf">Download PDF</button>
-        <button type="button" @click="downloadImage">Download High-Res Image</button>
+        <p class="button-container">
+            <button type="button" class="pure-button" @click="downloadPdf">Download PDF</button>
+            <button type="button" class="pure-button" @click="downloadImage">Download High-Res Image</button>
         </p>
-        <canvas width="850px" height="1100px"  v-generate-image="sheetData" ref="canvasEl"></canvas>
+        <canvas class="pure-img" width="850px" height="1100px"  v-generate-image="sheetData" ref="canvasEl"></canvas>
         <canvas style="display: none;" width="2550px" height="3300px" ref="canvasLrgEl"></canvas>
     </div>
 </template>
@@ -79,5 +79,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.button-container {
+    text-align: center;
+}
+.button-container button {
+    margin-left: 1em;
+    margin-right: 1em;
+}
 </style>
