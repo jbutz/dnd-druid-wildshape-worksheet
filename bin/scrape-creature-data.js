@@ -1,7 +1,7 @@
 /* eslint-env node, browser */
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-const _chunk = require('lodash/chunk');
+const _= require('lodash');
 
 puppeteer
     .launch()
@@ -19,7 +19,7 @@ puppeteer
 
         const creatureData = await Promise.all(
             (() => {
-                let creatureBatches = _chunk(paths, 5);
+                let creatureBatches = _.chunk(paths, 5);
                 return creatureBatches.reduce((result, batch, idx) => {
                     let delay = idx * 500;
                     return result.concat(
@@ -60,6 +60,7 @@ async function processCreaturePage(pageUrl, browser) {
         const page = await browser.newPage();
         await page.goto(pageUrl);
         await page.exposeFunction('_consoleLog', (...args) => console.log(...args));
+        await page.exposeFunction('_compact', (...args) => _.compact(...args));
         await page.addScriptTag({
             content: _processActions.toString()
         });
@@ -132,7 +133,7 @@ async function processCreaturePage(pageUrl, browser) {
             }
 
             let details = [
-                `${skillsText},  ${sensesText}`,
+                (await _compact([skillsText, sensesText])).join(', ').trim(),
                 ...actionsArray,
             ]
 
@@ -146,17 +147,17 @@ async function processCreaturePage(pageUrl, browser) {
                 str: strText,
                 dex: dexText,
                 con: conText,
-                skills: skillsText,
-                senses: sensesText,
+                //skills: skillsText,
+                //senses: sensesText,
                 cr: challengeText,
                 languages: languagesText,
-                actions: actionsArray,
+                //actions: actionsArray,
                 details
             };
         });
         await page.close();
 
-        return data;
+        return transformData(data);
     } catch (error) {
         console.error(pageUrl, error);
     }
@@ -183,3 +184,103 @@ function _processActions(actionsContainerEl) {
 function upperCaseFirstCharacter(text) {
     return `${text.substr(0,1).toUpperCase()}${text.substr(1)}`
 }
+
+function transformData(data) {
+    data.details = data.details.map((detail) =>
+        _.chain(detail)
+            .thru(_transformPassivePerception)
+            .thru(_transformPackTactics)
+            .thru(_transformKeenSmell)
+            .thru(_transformKeenSight)
+            .thru(_transformKeenHearingSmell)
+            .thru(_transformFlyBy)
+            .thru(_transformAmphibious)
+            .thru(_transformEcholocation)
+            .thru(_transformKeenHearing)
+            .thru(_transformSureFooted)
+            .thru(_transformKeenHearingSight)
+            .thru(_transformWaterBreathing)
+            .thru(_transformBloodyFrenzy)
+            .thru(_transformSpiderClimb)
+            .thru(_transformWebSense)
+            .thru(_transformWebWalkrer)
+            .thru(_transformCharge)
+            .value()
+    );
+
+    return data;
+}
+
+
+function _transformPassivePerception(value) {
+    return value.replace('passive Perception', 'Passive Perception');
+}
+
+function _transformPackTactics(value) {
+    return value.replace(/Pack Tactics\. The (.+) has advantage on an attack roll against a creature if at least one of the (.+) allies is within 5 feet of the creature and the ally isn\'t incapacitated\./, 'Pack Tactics.');
+}
+
+function _transformKeenSmell(value) {
+    return value.replace(/Keen Smell\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on smell\./, 'Keen Smell.');
+}
+
+function _transformKeenSight(value) {
+    return value.replace(/Keen Sight\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on sight\./, 'Keen Sight.');
+}
+
+function _transformKeenHearingSmell(value) {
+    return value.replace(/Keen Hearing and Smell\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on hearing or smell\./, 'Keen Hearing and Smell.');
+}
+
+function _transformFlyBy(value) {
+    return value.replace(/Flyby\. The (.+) doesn\'t provoke opportunity attacks when it flies out of an enemy's reach\./, 'Flyby.');
+}
+
+function _transformAmphibious(value) {
+    return value.replace(/Amphibious\. The (.+) can breathe air and water\./, 'Amphibious.');
+}
+
+function _transformEcholocation(value) {
+    return value.replace(/Echolocation\. The (.+) can't use its blindsight while deafened\./, 'Echolocation.');
+}
+
+function _transformKeenHearing(value) {
+    return value.replace(/Keen Hearing\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on hearing\./, 'Keen Hearing.');
+}
+
+function _transformSureFooted(value) {
+    return value.replace(/Sure-Footed\. The (.+) has advantage on Strength and Dexterity saving throws made against effects that would knock it prone\./, 'Sure-Footed.');
+}
+
+function _transformKeenHearingSight(value) {
+    return value.replace(/Keen Hearing and Sight\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on hearing or sight\./, 'Keen Hearing and Sight.');
+}
+
+function _transformWaterBreathing(value) {
+    return value.replace(/Water Breathing\. The (.+) can breathe only underwater\./, 'Water Breathing.');
+}
+
+function _transformBloodyFrenzy(value) {
+    return value.replace(/Blood Frenzy\. The (.+) has advantage on melee attack rolls against any creature that doesn't have all its hit points\./, 'Bloody Frenzy.');
+}
+
+function _transformSpiderClimb(value) {
+    return value.replace(/Spider Climb\. The (.+) can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check\./, 'Spider Climb.');
+}
+
+function _transformWebSense(value) {
+    return value.replace(/Web Sense\. While in contact with a web, the (.+) knows the exact location of any other creature in contact with the same web\./, 'Web Sense.');
+}
+
+function _transformWebWalkrer(value) {
+    return value.replace(/Web Walker\. The (.+) ignores movement restrictions caused by webbing\./, 'Web Walker.');
+}
+
+function _transformCharge(value) {
+    let matchObj = value.match(/Charge\. If the .+ moves at least (.+) feet straight toward a target and then hits it with a (.+) attack on the same turn, the target takes an extra (.+) damage. If the target is a creature, it must succeed on a (.+) saving throw or be knocked prone./)
+
+    return matchObj ? `Charge. ${matchObj[1]}ft, ${matchObj[2]} attack, ${matchObj[3]}, if creature ${[matchObj[4]]} saving throw or prone` : value;
+}
+
+
+// "Relentless (Recharges after a Short or Long Rest). If the boar takes 7 damage or less that would reduce it to 0 hit points, it is reduced to 1 hit point instead.",
