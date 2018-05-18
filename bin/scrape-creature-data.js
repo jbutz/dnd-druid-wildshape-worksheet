@@ -208,10 +208,37 @@ function transformData(data) {
             .thru(_transformWebSense)
             .thru(_transformWebWalkrer)
             .thru(_transformCharge)
+            .thru(_transformRelentless)
+            .thru(_transformTramplingCharge)
+            .thru(_transformSwallow)
             .value()
     );
 
+    data.details = _.chain(data.details)
+        .thru(_moveSwallow)
+        .thru(_condenceDetails)
+        .value();
+
     return data;
+}
+
+function _condenceDetails(detailsArray) {
+    let detailsOutput = [];
+    detailsArray.forEach((detail, idx) => {
+        let isIndentedLine = detail.substr(0,1) === ' ';
+        let isNextLineIndented = detailsArray[idx + 1] && detailsArray[idx + 1].substr(0,1) === ' ';
+        let lineLength = detail.length;
+        let prevLineLength = idx > 0 ? detailsOutput[ detailsOutput.length - 1 ].length : null;
+        
+        if(prevLineLength && (prevLineLength + lineLength) <= 120 && (!isNextLineIndented || isIndentedLine)) {
+            detailsOutput[detailsOutput.length - 1] += `${isNextLineIndented ? '' : ','} ${detail.trim()}`;
+        } else {
+            detailsOutput.push(detail);
+        }
+        
+    });
+
+    return detailsOutput;
 }
 
 
@@ -220,70 +247,104 @@ function _transformPassivePerception(value) {
 }
 
 function _transformPackTactics(value) {
-    return value.replace(/Pack Tactics\. The (.+) has advantage on an attack roll against a creature if at least one of the (.+) allies is within 5 feet of the creature and the ally isn't incapacitated\./, 'Pack Tactics.');
+    return value.replace(/Pack Tactics\. The (.+) has advantage on an attack roll against a creature if at least one of the (.+) allies is within 5 feet of the creature and the ally isn't incapacitated\./, 'Pack Tactics');
 }
 
 function _transformKeenSmell(value) {
-    return value.replace(/Keen Smell\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on smell\./, 'Keen Smell.');
+    return value.replace(/Keen Smell\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on smell\./, 'Keen Smell');
 }
 
 function _transformKeenSight(value) {
-    return value.replace(/Keen Sight\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on sight\./, 'Keen Sight.');
+    return value.replace(/Keen Sight\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on sight\./, 'Keen Sight');
 }
 
 function _transformKeenHearingSmell(value) {
-    return value.replace(/Keen Hearing and Smell\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on hearing or smell\./, 'Keen Hearing and Smell.');
+    return value.replace(/Keen Hearing and Smell\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on hearing or smell\./, 'Keen Hearing and Smell');
 }
 
 function _transformFlyBy(value) {
-    return value.replace(/Flyby\. The (.+) doesn't provoke opportunity attacks when it flies out of an enemy's reach\./, 'Flyby.');
+    return value.replace(/Flyby\. The (.+) doesn't provoke opportunity attacks when it flies out of an enemy's reach\./, 'Flyby');
 }
 
 function _transformAmphibious(value) {
-    return value.replace(/Amphibious\. The (.+) can breathe air and water\./, 'Amphibious.');
+    return value.replace(/Amphibious\. The (.+) can breathe air and water\./, 'Amphibious');
 }
 
 function _transformEcholocation(value) {
-    return value.replace(/Echolocation\. The (.+) can't use its blindsight while deafened\./, 'Echolocation.');
+    return value.replace(/Echolocation\. The (.+) can't use its blindsight while deafened\./, 'Echolocation');
 }
 
 function _transformKeenHearing(value) {
-    return value.replace(/Keen Hearing\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on hearing\./, 'Keen Hearing.');
+    return value.replace(/Keen Hearing\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on hearing\./, 'Keen Hearing');
 }
 
 function _transformSureFooted(value) {
-    return value.replace(/Sure-Footed\. The (.+) has advantage on Strength and Dexterity saving throws made against effects that would knock it prone\./, 'Sure-Footed.');
+    return value.replace(/Sure-Footed\. The (.+) has advantage on Strength and Dexterity saving throws made against effects that would knock it prone\./, 'Sure-Footed');
 }
 
 function _transformKeenHearingSight(value) {
-    return value.replace(/Keen Hearing and Sight\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on hearing or sight\./, 'Keen Hearing and Sight.');
+    return value.replace(/Keen Hearing and Sight\. The (.+) has advantage on Wisdom \(Perception\) checks that rely on hearing or sight\./, 'Keen Hearing and Sight');
 }
 
 function _transformWaterBreathing(value) {
-    return value.replace(/Water Breathing\. The (.+) can breathe only underwater\./, 'Water Breathing.');
+    return value.replace(/Water Breathing\. The (.+) can breathe only underwater\./, 'Water Breathing');
 }
 
 function _transformBloodyFrenzy(value) {
-    return value.replace(/Blood Frenzy\. The (.+) has advantage on melee attack rolls against any creature that doesn't have all its hit points\./, 'Bloody Frenzy.');
+    return value.replace(/Blood Frenzy\. The (.+) has advantage on melee attack rolls against any creature that doesn't have all its hit points\./, 'Bloody Frenzy');
 }
 
 function _transformSpiderClimb(value) {
-    return value.replace(/Spider Climb\. The (.+) can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check\./, 'Spider Climb.');
+    return value.replace(/Spider Climb\. The (.+) can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check\./, 'Spider Climb');
 }
 
 function _transformWebSense(value) {
-    return value.replace(/Web Sense\. While in contact with a web, the (.+) knows the exact location of any other creature in contact with the same web\./, 'Web Sense.');
+    return value.replace(/Web Sense\. While in contact with a web, the (.+) knows the exact location of any other creature in contact with the same web\./, 'Web Sense');
 }
 
 function _transformWebWalkrer(value) {
-    return value.replace(/Web Walker\. The (.+) ignores movement restrictions caused by webbing\./, 'Web Walker.');
+    return value.replace(/Web Walker\. The (.+) ignores movement restrictions caused by webbing\./, 'Web Walker');
 }
 
 function _transformCharge(value) {
     let matchObj = value.match(/Charge\. If the .+ moves at least (.+) feet straight toward a target and then hits it with a (.+) attack on the same turn, the target takes an extra (.+) damage. If the target is a creature, it must succeed on a (.+) saving throw or be knocked prone./);
 
-    return matchObj ? `Charge. ${matchObj[1]}ft, ${matchObj[2]} attack, ${matchObj[3]}, if creature ${[matchObj[4]]} saving throw or prone` : value;
+    return matchObj ? `Charge: ${matchObj[1]}ft, ${matchObj[2]} attack, ${matchObj[3]}, if creature ${[matchObj[4]]} saving throw or prone` : value;
 }
 
+function _transformRelentless(value) {
+    let matchObj = value.match(/Relentless \(Recharges after a Short or Long Rest\)\. If the .+ takes (.+) damage or less that would reduce it to 0 hit points, it is reduced to 1 hit point instead\./);
 
-// "Relentless (Recharges after a Short or Long Rest). If the boar takes 7 damage or less that would reduce it to 0 hit points, it is reduced to 1 hit point instead.",
+    return matchObj ? `Relentless: <= ${matchObj[1]} damage` : value;
+}
+
+function _transformTramplingCharge(value) {
+    let matchObj = value.match(/Trampling Charge\. If the .+ moves at least (.+) feet straight toward a creature and then hits it with a (.+) on the same turn, that target must succeed on a (.+) saving throw or be knocked prone\. If the target is prone, the .+ can make one stomp attack against it as a bonus action./);
+
+    return matchObj ? `Trampling Charge: ${matchObj[1]}ft, ${matchObj[2]}, ${matchObj[3]} saving throw` : value;
+}
+
+function _transformSwallow(value) {
+    return value.replace(/Swallow\. The .+ makes one bite attack against a .+ or smaller target it is grappling\. If the attack hits, the target is swallowed, and the grapple ends\. The swallowed target is blinded and restrained, it has total cover against attacks and other effects outside the .+, and it takes .+ damage at the start of each of the .+'s turns\. The .+ can have only one target swallowed at a time\. If the .+ dies, a swallowed creature is no longer restrained by it and can escape from the corpse using 5 feet of movement, exiting prone\./, 'Swallow');
+}
+
+function _moveSwallow(detailsArray) {
+    let swallowIndex = null;
+    detailsArray.some((detail, idx) => {
+        if(detail === 'Swallow') {
+            swallowIndex = idx;
+            return true;
+        }
+
+        return false;
+    });
+
+    if(!swallowIndex) {
+        return detailsArray;
+    }
+
+    let removedEls = detailsArray.splice(swallowIndex, 1);
+    detailsArray.splice(swallowIndex - 3, 0, ...removedEls);
+
+    return detailsArray;
+}
