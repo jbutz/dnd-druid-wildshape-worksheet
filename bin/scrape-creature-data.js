@@ -247,7 +247,7 @@ function _transformFixDireWolf(value) {
         return value.replace(' Pack Tactics.', ', Pack Tactics.');
     }
 
-    return value
+    return value;
 }
 function _transformPassivePerception(value) {
     return value.replace('passive Perception', 'Passive Perception');
