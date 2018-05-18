@@ -1,5 +1,7 @@
 # DnD Druid Wild Shape Worksheet Builder
 
+[![Build Status](https://travis-ci.com/jbutz/dnd-druid-wildshape-worksheet.svg?branch=master)](https://travis-ci.com/jbutz/dnd-druid-wildshape-worksheet)
+
 > Easily fill in a sheet with SRD beast information for quick reference
 
 This project's purpose is two-fold. Firstly, it was a simple project to allow me to try out [Vue.js](https://vuejs.org/).
