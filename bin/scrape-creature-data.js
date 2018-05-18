@@ -1,4 +1,6 @@
+/* global Promise */
 /* eslint-env node, browser */
+/* eslint no-console: 0 */
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const _= require('lodash');
@@ -26,10 +28,10 @@ puppeteer
                         batch.map(url => {
                             if (delay === 0) {
                                 return processCreaturePage(url, browser, _processActions)
-                                .catch((error) => {
-                                    console.error('Error occured with', url);
-                                    throw error;
-                                });
+                                    .catch((error) => {
+                                        console.error('Error occured with', url);
+                                        throw error;
+                                    });
                             }
 
                             return new Promise(resolve => {
@@ -37,10 +39,10 @@ puppeteer
                                     resolve(processCreaturePage(url, browser, _processActions));
                                 }, delay);
                             })
-                            .catch((error) => {
-                                console.error('Error occured with', url);
-                                throw error;
-                            });
+                                .catch((error) => {
+                                    console.error('Error occured with', url);
+                                    throw error;
+                                });
                         })
                     );
                 }, []);
@@ -103,7 +105,8 @@ async function processCreaturePage(pageUrl, browser) {
             // Skills, Senses, CR
             let skillsAndSensesParagraphEl = abilitiesTableEl.nextElementSibling;
             let skillsText = '',
-                sensesText = (''.languagesText = ''),
+                sensesText = '',
+                languagesText = '',
                 challengeText = '';
 
             for (let el of skillsAndSensesParagraphEl.children) {
@@ -124,7 +127,7 @@ async function processCreaturePage(pageUrl, browser) {
 
             // Actions
             let currentActionsElement = skillsAndSensesParagraphEl.nextElementSibling;
-            let actionsArray = []
+            let actionsArray = [];
             while(currentActionsElement !== null) {
                 if(currentActionsElement.nodeName === 'P') {
                     actionsArray = actionsArray.concat(_processActions(currentActionsElement));
@@ -133,9 +136,9 @@ async function processCreaturePage(pageUrl, browser) {
             }
 
             let details = [
-                (await _compact([skillsText, sensesText])).join(', ').trim(),
+                (await _compact([skillsText, sensesText])).join(', ').trim(), // eslint-disable-line no-undef
                 ...actionsArray,
-            ]
+            ];
 
             return {
                 name: creatureName,
@@ -182,7 +185,7 @@ function _processActions(actionsContainerEl) {
 }
 
 function upperCaseFirstCharacter(text) {
-    return `${text.substr(0,1).toUpperCase()}${text.substr(1)}`
+    return `${text.substr(0,1).toUpperCase()}${text.substr(1)}`;
 }
 
 function transformData(data) {
@@ -217,7 +220,7 @@ function _transformPassivePerception(value) {
 }
 
 function _transformPackTactics(value) {
-    return value.replace(/Pack Tactics\. The (.+) has advantage on an attack roll against a creature if at least one of the (.+) allies is within 5 feet of the creature and the ally isn\'t incapacitated\./, 'Pack Tactics.');
+    return value.replace(/Pack Tactics\. The (.+) has advantage on an attack roll against a creature if at least one of the (.+) allies is within 5 feet of the creature and the ally isn't incapacitated\./, 'Pack Tactics.');
 }
 
 function _transformKeenSmell(value) {
@@ -233,7 +236,7 @@ function _transformKeenHearingSmell(value) {
 }
 
 function _transformFlyBy(value) {
-    return value.replace(/Flyby\. The (.+) doesn\'t provoke opportunity attacks when it flies out of an enemy's reach\./, 'Flyby.');
+    return value.replace(/Flyby\. The (.+) doesn't provoke opportunity attacks when it flies out of an enemy's reach\./, 'Flyby.');
 }
 
 function _transformAmphibious(value) {
@@ -277,7 +280,7 @@ function _transformWebWalkrer(value) {
 }
 
 function _transformCharge(value) {
-    let matchObj = value.match(/Charge\. If the .+ moves at least (.+) feet straight toward a target and then hits it with a (.+) attack on the same turn, the target takes an extra (.+) damage. If the target is a creature, it must succeed on a (.+) saving throw or be knocked prone./)
+    let matchObj = value.match(/Charge\. If the .+ moves at least (.+) feet straight toward a target and then hits it with a (.+) attack on the same turn, the target takes an extra (.+) damage. If the target is a creature, it must succeed on a (.+) saving throw or be knocked prone./);
 
     return matchObj ? `Charge. ${matchObj[1]}ft, ${matchObj[2]} attack, ${matchObj[3]}, if creature ${[matchObj[4]]} saving throw or prone` : value;
 }
