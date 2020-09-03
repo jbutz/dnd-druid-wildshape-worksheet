@@ -50,6 +50,6 @@
         "not ie <= 8"
     ],
     "optionalDependencies": {
-        "puppeteer": "^1.4.0"
+        "puppeteer": "^1.13.0"
     }
 }
