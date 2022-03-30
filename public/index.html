@@ -7,6 +7,34 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="shortcut icon" href="<%= webpackConfig.output.publicPath %>favicon.ico">
     <title>DnD Druid Wild Shape Worksheet</title>
+    <script type='text/javascript'>
+    //some default pre init
+    var Countly = Countly || {};
+    Countly.q = Countly.q || [];
+
+    //provide countly initialization parameters
+    Countly.app_key = 'c410cc509ff1d46870c83a89aba92ac43897de53';
+    Countly.url = 'https://countly.jasonbutz.info';
+
+    Countly.q.push(['track_sessions']);
+    Countly.q.push(['track_pageview']);
+    Countly.q.push(['track_clicks']);
+    Countly.q.push(['track_scrolls']);
+    Countly.q.push(['track_errors']);
+    Countly.q.push(['track_links']);
+    Countly.q.push(['track_forms']);
+    Countly.q.push(['collect_from_forms']);
+
+    //load countly script asynchronously
+    (function() {
+       var cly = document.createElement('script'); cly.type = 'text/javascript';
+       cly.async = true;
+       //enter url of script here
+       cly.src = 'https://cdnjs.cloudflare.com/ajax/libs/countly-sdk-web/20.4.0/countly.min.js';
+       cly.onload = function(){Countly.init()};
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(cly, s);
+    })();
+    </script>
 </head>
 
 <body>
@@ -15,26 +43,7 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <!-- Matomo -->
-    <script type="text/javascript">
-        var _paq = _paq || [];
-        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function () {
-            var u = "//analytics.jasonbutz.info/";
-            _paq.push(['setTrackerUrl', u + 'qwertyphp']);
-            _paq.push(['setSiteId', '3']);
-            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-            g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'qwerty.js'; s.parentNode.insertBefore(g, s);
-        })();
-    </script>
-    <noscript>
-        <p>
-            <img src="//analytics.jasonbutz.info/qwertyphp?idsite=3&amp;rec=1" style="border:0;" alt="" />
-        </p>
-    </noscript>
-    <!-- End Matomo Code -->
+    <noscript><img src='https://countly.jasonbutz.info/pixel.png?app_key=c410cc509ff1d46870c83a89aba92ac43897de53&begin_session=1'/></noscript>
 </body>
 
 </html>
